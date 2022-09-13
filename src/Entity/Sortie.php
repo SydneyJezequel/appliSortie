@@ -6,6 +6,7 @@ use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=SortieRepository::class)
@@ -21,26 +22,33 @@ class Sortie
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\Regex(pattern="/^[a-z0-9_-]+$/i", message="Please use only letters, numbers, underscores and dashes!")
+     * @Assert\Length(max=30)
+     * @Assert\NotBlank()
      */
     private $nom;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank()
      */
     private $dateHeureDebut;
 
     /**
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="integer")
+     * @Assert\GreaterThan(0)
      */
     private $duree;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\LessThan(propertyPath="dateHeureDebut")
      */
     private $dateLimiteInscription;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\GreaterThan(0)
      */
     private $nbInscriptionsMax;
 
@@ -50,31 +58,50 @@ class Sortie
     private $infosSortie;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Etat::class, inversedBy="Supprimer")
+     * @ORM\ManyToOne(targetEntity=Etat::class)
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull()
      */
     private $etat;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="Supprimer")
+     * @ORM\ManyToOne(targetEntity=Campus::class)
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull()
      */
     private $campus;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="organisateurSortie")
+     * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="organisateurSorties")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull()
      */
     private $organisateur;
+
+
+
+
+
 
     /**
      * @ORM\ManyToMany(targetEntity=Participant::class, inversedBy="inscritSorties")
      */
-    private $inscrit;
+    private $inscrits;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Lieu::class)
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull()
+     */
+    private $lieu;
+
+
+
+
 
     public function __construct()
     {
-        $this->inscrit = new ArrayCollection();
+        $this->inscrits = new ArrayCollection();
     }
 
 
@@ -109,12 +136,12 @@ class Sortie
         return $this;
     }
 
-    public function getDuree(): ?\DateTimeInterface
+    public function getDuree(): ?int
     {
         return $this->duree;
     }
 
-    public function setDuree(\DateTimeInterface $duree): self
+    public function setDuree(int $duree): self
     {
         $this->duree = $duree;
 
@@ -196,15 +223,15 @@ class Sortie
     /**
      * @return Collection<int, Participant>
      */
-    public function getInscrit(): Collection
+    public function getInscrits(): Collection
     {
-        return $this->inscrit;
+        return $this->inscrits;
     }
 
     public function addInscrit(Participant $inscrit): self
     {
-        if (!$this->inscrit->contains($inscrit)) {
-            $this->inscrit[] = $inscrit;
+        if (!$this->inscrits->contains($inscrit)) {
+            $this->inscrits[] = $inscrit;
         }
 
         return $this;
@@ -212,7 +239,19 @@ class Sortie
 
     public function removeInscrit(Participant $inscrit): self
     {
-        $this->inscrit->removeElement($inscrit);
+        $this->inscrits->removeElement($inscrit);
+
+        return $this;
+    }
+
+    public function getLieu(): ?Lieu
+    {
+        return $this->lieu;
+    }
+
+    public function setLieu(?Lieu $lieu): self
+    {
+        $this->lieu = $lieu;
 
         return $this;
     }

@@ -6,11 +6,15 @@ use App\Repository\ParticipantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
+ * @UniqueEntity(fields={"email"})
+ * @UniqueEntity(fields={"pseudo"})
  */
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -23,69 +27,80 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=180)
      */
     private $email;
 
     /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
-
-    /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(min=8, max=100)
      */
-    private $password;
+    private $motPasse;
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=30)
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=30)
      */
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=30)
      */
     private $telephone;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Assert\NotBlank()
      */
     private $isAdministrateur;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Assert\NotBlank()
      */
     private $isActif;
 
     /**
-     * @ORM\Column(type="string", length=30, nullable=true)
+     * @ORM\Column(type="string", length=30, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=30)
      */
     private $pseudo;
 
     /**
      * @ORM\ManyToOne(targetEntity=Campus::class)
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull()
      */
     private $campus;
 
     /**
      * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="organisateur", orphanRemoval=true)
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $organisateurSortie;
+    private $organisateurSorties;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Sortie::class, mappedBy="inscrit")
+     * @ORM\ManyToMany(targetEntity=Sortie::class, mappedBy="inscrits")
      */
     private $inscritSorties;
 
     public function __construct()
     {
-        $this->organisateurSortie = new ArrayCollection();
+        $this->organisateurSorties = new ArrayCollection();
         $this->inscritSorties = new ArrayCollection();
     }
 
@@ -129,34 +144,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
+        return ($this->isAdministrateur)?['ROLE_ADMIN']:['ROLE_USER'];
     }
 
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
 
     /**
      * @see PasswordAuthenticatedUserInterface
      */
     public function getPassword(): string
     {
-        return $this->password;
+        return $this->motPasse;
     }
 
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
 
     /**
      * Returning a salt is only needed, if you are not using a modern
@@ -265,15 +264,15 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Sortie>
      */
-    public function getOrganisateurSortie(): Collection
+    public function getOrganisateurSorties(): Collection
     {
-        return $this->organisateurSortie;
+        return $this->organisateurSorties;
     }
 
     public function addOrganisateurSortie(Sortie $organisateurSortie): self
     {
-        if (!$this->organisateurSortie->contains($organisateurSortie)) {
-            $this->organisateurSortie[] = $organisateurSortie;
+        if (!$this->organisateurSorties->contains($organisateurSortie)) {
+            $this->organisateurSorties[] = $organisateurSortie;
             $organisateurSortie->setOrganisateur($this);
         }
 
@@ -282,11 +281,12 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeOrganisateurSortie(Sortie $organisateurSortie): self
     {
-        if ($this->organisateurSortie->removeElement($organisateurSortie)) {
+        if ($this->organisateurSorties->removeElement($organisateurSortie)) {
+                $organisateurSortie->removeInscrit($this);
             // set the owning side to null (unless already changed)
-            if ($organisateurSortie->getOrganisateur() === $this) {
-                $organisateurSortie->setOrganisateur(null);
-            }
+            /*if ($organisateurSortie->getOrganisateur() === $this) {
+                $organisateurSortie->setOrganisateur(!null); // Pas de null par défaut. + Une fois la sortie réalisée, organisateur non supprimable
+            }*/
         }
 
         return $this;
@@ -318,4 +318,22 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getMotPasse(): string
+    {
+        return $this->motPasse;
+    }
+
+    /**
+     * @param string $motPasse
+     */
+    public function setMotPasse(string $motPasse): void
+    {
+        $this->motPasse = $motPasse;
+    }
+
+
 }

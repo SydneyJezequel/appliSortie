@@ -6,9 +6,13 @@ use App\Repository\VilleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=VilleRepository::class)
+ * @UniqueEntity(fields={"codePostal"})
+ * @UniqueEntity(fields={"nom"})
  */
 class Ville
 {
@@ -21,11 +25,15 @@ class Ville
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=30)
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=30)
      */
     private $codePostal;
 
@@ -88,13 +96,7 @@ class Ville
 
     public function removeLieux(Lieu $lieux): self
     {
-        if ($this->lieux->removeElement($lieux)) {
-            // set the owning side to null (unless already changed)
-            if ($lieux->getVille() === $this) {
-                $lieux->setVille(null);
-            }
-        }
-
+        $this->lieux->removeElement($lieux);
         return $this;
     }
 

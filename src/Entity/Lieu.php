@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\LieuRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=LieuRepository::class)
@@ -19,11 +20,15 @@ class Lieu
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=30)
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=50)
      */
     private $rue;
 
@@ -40,6 +45,7 @@ class Lieu
     /**
      * @ORM\ManyToOne(targetEntity=Ville::class, inversedBy="lieux")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull()
      */
     private $ville;
 
