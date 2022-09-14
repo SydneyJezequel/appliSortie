@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Afficher Profil{% endblock %}
+
+
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %}
+{% for message in app.flashes('ok') %}
+<div class="alert alert-success mt-4">
+     {{ message }}
+</div>
+{% endfor %}
+
+
+<div class="example-wrapper">
+
+    <h1> {{user.pseudo}} </h1>
+    <ul>
+        <li><p>Prénom :  {{user.prenom}}</p></li>
+        <li><p>Nom : {{user.nom}}</p></li>
+        <li><p>Téléphone :  {{user.telephone}}</p></li>
+        <li><p>Email :  {{user.email}}</p></li>
+        <li><p>Campus : {{ user.campus.nom }}</p></li>
+
+    </ul>
+</div>
+
+
+<td> <a class="btn btn-primary btn-lg" href=" {#  {{ path('modifier_user', {'id':user.id}) }} #}">Retour</a> </td>
+
+{% endblock %}
