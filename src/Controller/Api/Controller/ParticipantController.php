@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api\Controller;
 
 use App\Entity\Participant;
 use App\Form\ModifierParticipantType;
-use App\Repository\CampusRepository;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,11 +32,9 @@ class ParticipantController extends AbstractController
     /**
      * @Route("/modifierProfil/{id}", name="modifier_user", methods={"GET","POST"})
      */
-    public function modifierParticipant(Participant $participant, Request $request, EntityManagerInterface $manager, CampusRepository $campusRepository ): Response
+    public function modifierParticipant(Participant $participant, Request $request, EntityManagerInterface $manager): Response
     {
-        $campusRepository->findAll();
         $form = $this->createForm(ModifierParticipantType::class, $participant);
-        $campus =
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->flush();
@@ -51,7 +48,6 @@ class ParticipantController extends AbstractController
             'home/modifierProfil.html.twig', [
             'formulaire' => $form->createView(),
             'user' => $participant,
-            'campus' =>$campusRepository,
         ]);
     }
 

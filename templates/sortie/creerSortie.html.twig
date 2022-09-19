@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block title %}
+    Créer une sortie
+{% endblock %}
+
+
+
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+
+
+{% block body %}
+
+{% for message in app.flashes('ok') %}
+    <div class="alert alert-success mt-4">
+         {{ message }}
+    </div>
+{% endfor %}
+
+
+<div class="example-wrapper">
+    <h1>  Créer une sortie </h1>
+    {{ form(formulaire) }}
+</div>
+
+
+
+<script>
+    let ville = document.getElementById("creer_sortie_ville");
+    ville.addEventListener("change", ()=> initLieux())
+    function initLieux() {
+        let id = document.getElementById("creer_sortie_ville").value;
+        fetch('http://127.0.0.1:8000/api/lieux/'+id, {'method':"GET", 'headers':{'Accept':'application/json'}})
+            .then(response => response.json())
+            .then(response => {
+                let options = "";
+                response.map(lieux => {
+                    options+=`<option value="${lieux.id}">${lieux.nom}</option>`;
+                })
+                document.getElementById("creer_sortie_lieu").innerHTML = options;
+            })
+            .catch(e=>{
+                alert(e);
+            })
+    }
+</script>
+
+
+
+{% endblock %}
