@@ -35,8 +35,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     * @Assert\Length(min=8, max=100)
+     * @Assert\Length(min=4, max=100)
      */
     private $motPasse;
 
@@ -63,13 +62,12 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="boolean")
-     * @Assert\NotBlank()
+     * @Assert\Type("bool")
      */
     private $isAdministrateur;
 
     /**
      * @ORM\Column(type="boolean")
-     * @Assert\NotBlank()
      */
     private $isActif;
 
