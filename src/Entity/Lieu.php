@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\LieuRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -15,6 +16,7 @@ class Lieu
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"liste_lieux"})
      */
     private $id;
 
@@ -22,6 +24,7 @@ class Lieu
      * @ORM\Column(type="string", length=30)
      * @Assert\NotBlank()
      * @Assert\Length(max=30)
+     * @Groups({"liste_lieux"})
      */
     private $nom;
 
@@ -29,11 +32,13 @@ class Lieu
      * @ORM\Column(type="string", length=50)
      * @Assert\NotBlank()
      * @Assert\Length(max=50)
+     * @Groups({"liste_lieux"})
      */
     private $rue;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"liste_lieux"})
      */
     private $latitude;
 
@@ -116,5 +121,8 @@ class Lieu
         return $this;
     }
 
-
+    public function __toString()
+    {
+        return $this->nom;
+    }
 }
