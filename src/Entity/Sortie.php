@@ -6,6 +6,7 @@ use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -25,12 +26,14 @@ class Sortie
      * @Assert\Regex(pattern="/^[a-z0-9_-]+$/i", message="Please use only letters, numbers, underscores and dashes!")
      * @Assert\Length(max=30)
      * @Assert\NotBlank()
+     * @Groups({"liste_sorties"})
      */
     private $nom;
 
     /**
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank()
+     * @Groups({"liste_sorties"})
      */
     private $dateHeureDebut;
 
@@ -43,12 +46,14 @@ class Sortie
     /**
      * @ORM\Column(type="date")
      * @Assert\LessThan(propertyPath="dateHeureDebut")
+     * @Groups({"liste_sorties"})
      */
     private $dateLimiteInscription;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\GreaterThan(0)
+     * @Groups({"liste_sorties"})
      */
     private $nbInscriptionsMax;
 
@@ -61,6 +66,7 @@ class Sortie
      * @ORM\ManyToOne(targetEntity=Etat::class)
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotNull()
+     * @Groups({"liste_sorties"})
      */
     private $etat;
 
@@ -75,6 +81,7 @@ class Sortie
      * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="organisateurSorties")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotNull()
+     * @Groups({"liste_sorties"})
      */
     private $organisateur;
 
