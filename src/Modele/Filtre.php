@@ -11,8 +11,8 @@ class Filtre
 
     // Attributs :
     public ?Campus $campus=null;
-    public String $nom;
-    public DateTime $dateDebut;
+    public ?string $nom=null;
+    public ?DateTime $dateDebut=null;
 
     /*
     public DateTime $dateFin;

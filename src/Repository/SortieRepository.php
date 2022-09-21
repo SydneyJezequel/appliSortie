@@ -68,15 +68,25 @@ class SortieRepository extends ServiceEntityRepository
 
     public function searchSorties(Filtre $filtre)
     {
-        if ($filtre->campus!=null) {
-            return $this->createQueryBuilder('Sorties')
-                ->andWhere('Sorties.campus = :campus')
+
+            $qb= $this->createQueryBuilder('Sorties');
+
+
+                if ($filtre->campus!=null){
+                    $qb->andWhere('Sorties.campus = :campus')
+                    ->setParameter('campus', $filtre->campus);
+                }
+                if ($filtre->nom!=null){
+                    $qb->andWhere('Sorties.campus = :campus')
+                    ->setParameter('campus', $filtre->campus);
+                }
+
+
                 ->andWhere('Sorties.nom = :nom')
                 ->andWhere('Sorties.dateHeureDebut >= :dateDebut')
                 ->andWhere('Sorties.dateHeureDebut <= :dateFin')
                 //->andWhere('Sorties.pasInscrit = :campus')
                 //->andWhere('Sorties.passee = :campus')
-                ->setParameter('campus', $filtre->campus)
                 ->setParameter('nom', $filtre->nom)
                 ->setParameter('dateDebut', $filtre->dateDebut);
             //->setParameter('dateFin', $filtre->getDateFin())
@@ -84,9 +94,8 @@ class SortieRepository extends ServiceEntityRepository
             //->setParameter('inscrit', $filtre->getInscrit())
             //->setParameter('pasInscrit', $filtre->getPasInscrit())
             //->setParameter('passees', $filtre->getPasse());
-        }else{
-            return $this->findAll();
-        }
+        return $qb->getQuery()->getResult();
+
     }
 
 

@@ -25,11 +25,12 @@ class SortiesController extends AbstractController
 {
 
     /**
-     * @Route("/sorties", name="sorties_afficher", methods={"GET"})
+     * @Route("/sorties", name="sorties_afficher", methods={"GET", "POST"})
      */
     public function afficherSorties(Request $request, SortieRepository $sortieRepository)
     {
         $filtre = new Filtre();
+        $filtre->campus=$this->getUser()->getCampus();
         $form = $this->createForm(FiltreType::class, $filtre);
         $form->handleRequest($request);
         $sorties = $sortieRepository->searchSorties($filtre);
