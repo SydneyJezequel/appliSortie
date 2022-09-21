@@ -151,14 +151,7 @@ class RegistrationFormType extends AbstractType
                 'multiple' => false,
                 'data' => true
             ])
-//            ->add('rememberMe', CheckboxType::class, [
-//                'mapped' => false,
-//                'constraints' => [
-//                    new IsTrue([
-//                        'message' => 'Se souvenir de moi',
-//                    ]),
-//                ],
-//            ])
+
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
