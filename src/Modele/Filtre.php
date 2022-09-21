@@ -9,6 +9,7 @@ use DateTime;
 class Filtre
 {
 
+
     // Attributs :
     public ?Campus $campus=null;
     public ?string $nom=null;

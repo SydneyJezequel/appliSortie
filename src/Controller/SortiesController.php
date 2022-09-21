@@ -24,6 +24,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class SortiesController extends AbstractController
 {
 
+
     /**
      * @Route("/sorties", name="sorties_afficher", methods={"GET", "POST"})
      */
