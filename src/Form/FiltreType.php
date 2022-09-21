@@ -3,14 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Campus;
-use App\Entity\Lieu;
 use App\Modele\Filtre;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -29,14 +26,19 @@ class FiltreType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                 ],
-                'required'=>false,
                 'choice_label' => 'nom',
+                'data'=>'Nantes',
+                'required'=>false,
+
             ])
             ->add('nom',TextType::class,  [
                 'label'    => 'Nom',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
                 'required'=>false,
             ])
-            ->add('dateDebut', DateType::class, [
+            ->add('dateDebut', DateTimeType::class, [
                 'widget' => 'single_text',
                 'attr' => [
                     'class' => 'form-control',
@@ -47,17 +49,7 @@ class FiltreType extends AbstractType
                 ],
                 'required'=>false,
             ])
-            ->add('dateFin', DateType::class, [
-                'widget' => 'single_text',
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-                'label' => 'et',
-                'label_attr' => [
-                    'class' => 'form_label'
-                ],
-                'required'=>false,
-            ])
+            /*
             ->add('organisateur',CheckboxType::class,  [
                 'label'    => 'Sorties dont je suis organisateur/trice',
                 'required'      => false,
@@ -77,7 +69,7 @@ class FiltreType extends AbstractType
                 'label'    => 'Sorties passées',
                 'required'      => false,
                 'empty_data' => null,
-            ])
+            ])*/
             ->add('submit', SubmitType::class, [
                 'label' => 'Rechercher',
                 'attr' => [

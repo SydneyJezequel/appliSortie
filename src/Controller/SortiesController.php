@@ -27,17 +27,8 @@ class SortiesController extends AbstractController
     /**
      * @Route("/sorties", name="sorties_afficher", methods={"GET"})
      */
-    public function afficherSorties(Request $request, SortieRepository $sortieRepository, CampusRepository $campusRepository)
+    public function afficherSorties(Request $request, SortieRepository $sortieRepository)
     {
-        /*
-        $sorties = $sortieRepository->findAll();
-        return $this->render('sorties/afficher.html.twig', [
-            'sorties' => $sorties,
-        ]);
-        */
-
-        $listeCampus = $campusRepository->findAll();
-        $sorties = $sortieRepository->findAll();
         $filtre = new Filtre();
         $form = $this->createForm(FiltreType::class, $filtre);
         $form->handleRequest($request);
@@ -45,7 +36,6 @@ class SortiesController extends AbstractController
         return $this->render('sorties/afficher.html.twig', [
             'form' => $form->createView(),
             'sorties'=> $sorties,
-           // 'listeCampus'=>$listeCampus,
         ]);
 
     }
