@@ -28,10 +28,13 @@ class SortiesController extends AbstractController
     /**
      * @Route("/sorties", name="sorties_afficher", methods={"GET", "POST"})
      */
-    public function afficherSorties(Request $request, SortieRepository $sortieRepository)
+    public function afficherSorties(ParticipantRepository $participantRepository, Request $request, SortieRepository $sortieRepository)
     {
         $filtre = new Filtre();
         $filtre->campus=$this->getUser()->getCampus();
+        $idUser=$this->getUser()->getUserIdentifier();
+        $user= $participantRepository->findBy(['email'=>$idUser]);
+        $filtre->id = $user[0]->getId();
         $form = $this->createForm(FiltreType::class, $filtre);
         $form->handleRequest($request);
         $sorties = $sortieRepository->searchSorties($filtre);
@@ -68,7 +71,7 @@ class SortiesController extends AbstractController
             $manager->flush();
             $this->addFlash(
                 'ok',
-                'La sorties a été crée.'
+                'La sortie a été créée.'
             );
             return $this->redirectToRoute('app_creer_sortie', ['id'=>$organisateur->getId()]);
         }

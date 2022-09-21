@@ -41,64 +41,47 @@ class SortieRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Sortie[] Returns an array of Sortie objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Sortie
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
-
-
     public function searchSorties(Filtre $filtre)
     {
-
             $qb= $this->createQueryBuilder('Sorties');
-
-
-                if ($filtre->campus!=null){
+                if ($filtre->campus!=null) {
                     $qb->andWhere('Sorties.campus = :campus')
-                    ->setParameter('campus', $filtre->campus);
+                       ->setParameter('campus', $filtre->campus);
                 }
-                if ($filtre->nom!=null){
-                    $qb->andWhere('Sorties.campus = :campus')
-                    ->setParameter('campus', $filtre->campus);
+                if ($filtre->nom!=null) {
+                    $qb->andWhere('Sorties.nom = :nom')
+                        ->setParameter('nom', $filtre->nom);
                 }
-
-
-                ->andWhere('Sorties.nom = :nom')
-                ->andWhere('Sorties.dateHeureDebut >= :dateDebut')
-                ->andWhere('Sorties.dateHeureDebut <= :dateFin')
-                //->andWhere('Sorties.pasInscrit = :campus')
-                //->andWhere('Sorties.passee = :campus')
-                ->setParameter('nom', $filtre->nom)
-                ->setParameter('dateDebut', $filtre->dateDebut);
-            //->setParameter('dateFin', $filtre->getDateFin())
-            //->setParameter('organisateur', $filtre->getOrganisateur());
-            //->setParameter('inscrit', $filtre->getInscrit())
-            //->setParameter('pasInscrit', $filtre->getPasInscrit())
-            //->setParameter('passees', $filtre->getPasse());
-        return $qb->getQuery()->getResult();
-
+                if ($filtre->dateDebut!=null) {
+                    $qb->andWhere('Sorties.dateHeureDebut >= :dateDebut')
+                        ->setParameter('dateDebut', $filtre->dateDebut);
+                }
+                if ($filtre->dateFin!=null) {
+                    $qb->andWhere('Sorties.dateHeureDebut <= :dateFin')
+                        ->setParameter('dateFin', $filtre->dateFin);
+                }
+                if ($filtre->organisateur) {
+                    $qb->andWhere('Sorties.organisateur = :organisateur')
+                    ->setParameter('organisateur', $filtre->id);
+                }
+                if ($filtre->inscrit) {
+                    $qb->andWhere('Sorties.inscrits = :inscrit')
+                        ->setParameter('inscrit', $filtre->id);
+                }
+                /*
+                if ($filtre->pasInscrit) {
+                    $qb->andWhere('Sorties.inscrits != :inscrit')
+                        ->setParameter('inscrit', $filtre->id);
+                }
+                */
+                /*
+                if ($filtre->passee) {
+                    $qb->andWhere('Sorties.dateHeureDebut <= :dateJour')
+                       ->setParameter('dateJour', ??????);
+                }
+                 */
+                return $qb->getQuery()->getResult();
     }
-
 
 
 

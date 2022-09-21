@@ -14,12 +14,12 @@ class Filtre
     public ?Campus $campus=null;
     public ?string $nom=null;
     public ?DateTime $dateDebut=null;
-
-    /*
-    public DateTime $dateFin;
-    public $organisateur;
-    public $inscrit;
-    public $pasInscrit;
-    public $passe;
+    public ?DateTime $dateFin=null;
+    public ?bool $organisateur=null;
+    public ?int $id=null;
+    public ?bool $inscrit=null;
+    public ?bool $pasInscrit=null;
+/*
+public ?bool$passee=null;
 */
 }

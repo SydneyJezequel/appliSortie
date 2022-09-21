@@ -152,11 +152,6 @@ class CreerSortieType extends AbstractType
                 'attr' => [
                     'class' => 'btn btn-primary mt-4'
                 ]
-            ])
-            ->add('Annuler', ResetType::class, [
-                'attr' => [
-                    'class' => 'btn btn-primary mt-4'
-                ]
             ]);
 
     }
