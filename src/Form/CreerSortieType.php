@@ -35,13 +35,13 @@ class CreerSortieType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                 ],
-                'label' => 'Nom de la sortie',
+                'label' => 'Nom de la sorties',
                 'label_attr' => [
                     'class' => 'form_label'
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Merci d\'entrer le nom de la sortie',
+                        'message' => 'Merci d\'entrer le nom de la sorties',
                     ]),
                     new Length([
                         'max' => 30,
@@ -53,13 +53,13 @@ class CreerSortieType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                 ],
-                'label' => 'Date et heure de la sortie',
+                'label' => 'Date et heure de la sorties',
                 'label_attr' => [
                     'class' => 'form_label'
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Indiquer la Date et heure de la sortie',
+                        'message' => 'Indiquer la Date et heure de la sorties',
                     ]),
                     new GreaterThan([
                         'propertyPath' => 'parent.all[dateLimiteInscription].data'
@@ -132,6 +132,7 @@ class CreerSortieType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                 ],
+                'placeholder'=>'Sélectionner une ville'
             ])
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Sortie;
+use App\Modele\Filtre;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -63,4 +64,32 @@ class SortieRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+
+    public function searchSorties(Filtre $filtre)
+    {
+        if ($filtre->getCampus()!=null) {
+            return $this->createQueryBuilder('Sorties')
+                ->andWhere('Sorties.campus = :campus')
+                ->andWhere('Sorties.nom = :nom')
+                ->andWhere('Sorties.dateHeureDebut >= :dateDebut')
+                ->andWhere('Sorties.dateHeureDebut <= :dateFin')
+                //->andWhere('Sorties.pasInscrit = :campus')
+                //->andWhere('Sorties.passee = :campus')
+                ->setParameter('campus', $filtre->getCampus())
+                ->setParameter('nom', $filtre->getNom())
+                ->setParameter('dateDebut', $filtre->getDateDebut())
+                ->setParameter('dateFin', $filtre->getDateFin())
+                ->setParameter('organisateur', $filtre->getOrganisateur());
+                //->setParameter('inscrit', $filtre->getInscrit())
+                //->setParameter('pasInscrit', $filtre->getPasInscrit())
+                //->setParameter('passees', $filtre->getPasse());
+        }else{
+            return $this->findAll();
+        }
+    }
+
+
+
+
 }
