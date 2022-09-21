@@ -283,7 +283,7 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
                 $organisateurSortie->removeInscrit($this);
             // set the owning side to null (unless already changed)
             /*if ($organisateurSortie->getOrganisateur() === $this) {
-                $organisateurSortie->setOrganisateur(!null); // Pas de null par défaut. + Une fois la sortie réalisée, organisateur non supprimable
+                $organisateurSortie->setOrganisateur(!null); // Pas de null par défaut. + Une fois la sorties réalisée, organisateur non supprimable
             }*/
         }
 
@@ -331,6 +331,11 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function setMotPasse(string $motPasse): void
     {
         $this->motPasse = $motPasse;
+    }
+
+    public function __toString()
+    {
+        return $this->nom;
     }
 
 
