@@ -26,7 +26,7 @@
             <th scope="col" id="cloture">Cloture inscription</th>
             <th scope="col" id="inscritsPlaces">Inscrits/Places</th>
             <th scope="col" id="etat">Etat</th>
-            <th scope="col" id="inscrits">Inscrits</th>
+            <th scope="col" id="inscrit">Inscrit</th>
             <th scope="col" id="organisateur">Organisateur</th>
             <th scope="col" id="actions">Actions</th>
         </tr>
@@ -39,7 +39,7 @@
                 <td>{{sortie.dateLimiteInscription | date}}</td>
                 <td>{{sortie.nbInscriptionsMax}}</td>
                 <td>{{sortie.etat}}</td>
-                <td></td>
+                <td>{# sortie.participant #}</td>
                 <td>{{sortie.organisateur.nom}}</td>
                 <td>
 
