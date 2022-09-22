@@ -80,6 +80,7 @@ class SortieRepository extends ServiceEntityRepository
                        ->setParameter('dateJour', ??????);
                 }
                  */
+//                    dd($qb);
                 return $qb->getQuery()->getResult();
     }
 
