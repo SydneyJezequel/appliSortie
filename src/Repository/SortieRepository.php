@@ -64,19 +64,6 @@ class SortieRepository extends ServiceEntityRepository
                     $qb->andWhere('Sorties.organisateur = :organisateur')
                     ->setParameter('organisateur', $filtre->id);
                 }
-//                if ($filtre->inscrit) {
-//
-//                    $qb->join('Participants.inscrits', 'i')
-////                        ->addSelect('i')
-////                        ->andWhere('Sorties.inscrits = :inscrit')
-////                        ->setParameter('inscrit', $filtre->id);
-////
-////                    $query->select ('c');
-////                    $query->from(MyBundle:Company, 'c');
-////                    $query->leftJoin('c.ChildrenCompany','j');
-////                    $query->where('j.id = :subCompanyId');
-////                    $query->setParameter("subCompanyId", 5);
-//                }
 
                 if ($filtre->inscrit) { $qb->andWhere(":isInscrit MEMBER OF Sorties.inscrits")->setParameter("isInscrit", $filtre->id); }
 

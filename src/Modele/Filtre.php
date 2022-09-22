@@ -21,4 +21,5 @@ class Filtre
     public ?bool $pasInscrit=null;
     public ?bool $passee=null;
 
+
 }
