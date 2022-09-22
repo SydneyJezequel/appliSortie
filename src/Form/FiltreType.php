@@ -79,14 +79,12 @@ class FiltreType extends AbstractType
                 'empty_data' => null,
                 'required'=>false,
             ])
-
             ->add('passee',CheckboxType::class,  [
                 'label'    => 'Sorties passées',
                 'data' => false,
                 'empty_data' => null,
                 'required'=>false,
             ])
-
             ->add('submit', SubmitType::class, [
                 'label' => 'Rechercher',
                 'attr' => [

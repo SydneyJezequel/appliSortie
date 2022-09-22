@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Api;
+namespace App\Controller\Api\Controller\Api;
 
 use App\Entity\Ville;
 use App\Repository\LieuRepository;

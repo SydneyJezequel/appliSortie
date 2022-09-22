@@ -38,7 +38,7 @@
         fetch('http://127.0.0.1:8000/api/lieux/'+id, {'method':"GET", 'headers':{'Accept':'application/json'}})
             .then(response => response.json())
             .then(response => {
-                let options = "";
+                let options = "Sélectionner un lieu";
                 response.map(lieux => {
                     options+=`<option value="${lieux.id}">${lieux.nom}</option>`;
                 })
