@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Api\Controller;
+namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Form\ModifierParticipantType;

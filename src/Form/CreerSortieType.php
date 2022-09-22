@@ -132,7 +132,9 @@ class CreerSortieType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                 ],
-                'placeholder'=>'Sélectionner une ville'
+                'placeholder'=>'Sélectionner une ville',
+//                'empty_data' => ''
+
             ])
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
