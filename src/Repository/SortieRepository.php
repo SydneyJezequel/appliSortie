@@ -68,18 +68,14 @@ class SortieRepository extends ServiceEntityRepository
                     $qb->andWhere('Sorties.inscrits = :inscrit')
                         ->setParameter('inscrit', $filtre->id);
                 }
-                /*
                 if ($filtre->pasInscrit) {
                     $qb->andWhere('Sorties.inscrits != :inscrit')
                         ->setParameter('inscrit', $filtre->id);
                 }
-                */
-                /*
                 if ($filtre->passee) {
                     $qb->andWhere('Sorties.dateHeureDebut <= :dateJour')
-                       ->setParameter('dateJour', ??????);
+                       ->setParameter('dateJour', date('d-m-y'));
                 }
-                 */
                 return $qb->getQuery()->getResult();
     }
 

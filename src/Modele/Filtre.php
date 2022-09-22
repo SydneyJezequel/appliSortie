@@ -19,7 +19,6 @@ class Filtre
     public ?int $id=null;
     public ?bool $inscrit=null;
     public ?bool $pasInscrit=null;
-/*
-public ?bool$passee=null;
-*/
+    public ?bool$passee=null;
+
 }
