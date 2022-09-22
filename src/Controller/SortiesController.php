@@ -81,20 +81,20 @@ class SortiesController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/sorties/inscription", name="app_inscription_sortie")
-     */
-    public function inscriptionSortie(Sortie $sortie, Request $request, EntityManagerInterface $em)
-    {
-//        $form = $this->createForm(CreerSortieType::class, $nouvelleSortie);
-//        $form->handleRequest($request);
-//        if ($form->isSubmitted() && $form->isValid()) {
-
-
-//        }
-
-
-    }
+//    /**
+//     * @Route("/sorties/inscription", name="app_inscription_sortie")
+//     */
+//    public function inscriptionSortie(Sortie $sortie, Request $request, EntityManagerInterface $em)
+//    {
+////        $form = $this->createForm(CreerSortieType::class, $nouvelleSortie);
+////        $form->handleRequest($request);
+////        if ($form->isSubmitted() && $form->isValid()) {
+//
+//
+////        }
+//
+//
+//    }
 
 
 

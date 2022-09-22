@@ -11,11 +11,19 @@
 <div class="example-wrapper">
     <h1>Hello {{ app.user }}</h1>
 
+    {# read and display all flash messages #}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash flash-{{label}}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
 
-    {{ form_start(inscriptionForm) }}
-    {{ form_widget (inscriptionForm) }}
+    {{ form_start(inscriptionSortieForm) }}
+    {{ form_widget (inscriptionSortieForm) }}
 
     <button type="submit" class="btn btn-lg btn-primary">Valider</button>
-    {{ form_end(inscriptionForm) }}
+    {{ form_end(inscriptionSortieForm) }}
 </div>
 {% endblock %}
