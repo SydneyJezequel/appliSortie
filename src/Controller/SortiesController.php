@@ -6,6 +6,7 @@ use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\CreerSortieType;
 use App\Form\FiltreType;
+use App\Form\InscriptionSortieFormType;
 use App\Modele\Filtre;
 use App\Repository\CampusRepository;
 use App\Repository\EtatRepository;
@@ -81,22 +82,39 @@ class SortiesController extends AbstractController
         ]);
     }
 
-//    /**
-//     * @Route("/sorties/inscription", name="app_inscription_sortie")
-//     */
-//    public function inscriptionSortie(Sortie $sortie, Request $request, EntityManagerInterface $em)
-//    {
-////        $form = $this->createForm(CreerSortieType::class, $nouvelleSortie);
-////        $form->handleRequest($request);
-////        if ($form->isSubmitted() && $form->isValid()) {
-//
-//
-////        }
-//
-//
-//    }
+    /**
+     * @Route("/inscriptionSortie/{id}", name="app_inscription_sortie", methods={"GET", "POST"})
+     */
+    public function inscriptionSortie(Sortie $sortie, Request $request, EntityManagerInterface $entityManager): Response
+    {
+            $participant = $this->getUser();
 
+            $sortie->addInscrit($participant);
+            // Injection des données :
+            $entityManager->flush($sortie);
+            $this->addFlash('suscribed', 'Vous êtes inscrit.');
 
+            return $this->redirectToRoute('sorties_afficher');
+
+    }
+
+    /**
+     * @Route("/desistementSortie/{id}", name="app_desistement_sortie", methods={"GET", "POST"})
+     */
+    public function desistementSortie(Sortie $sortie, Request $request, EntityManagerInterface $entityManager): Response
+    {
+            $participant = $this->getUser();
+
+            $sortie->removeInscrit($participant);
+
+            // Injection des données :
+            $entityManager->flush($sortie);
+
+            $this->addFlash('unsuscribed', 'Vous êtes désinscrit.');
+
+            return $this->redirectToRoute('sorties_afficher');
+
+    }
 
 
     /**

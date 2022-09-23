@@ -9,6 +9,14 @@
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/united/variables.scss">
         {% endblock %}
         <title>Sortir.com</title>
+        {# read and display all flash messages #}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="text-warning">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
     </head>
 {% block header %}
     <body>
@@ -22,9 +30,12 @@
                     {% if app.user %}
                         <a class="nav-link" href="{{ path('app_logout')}}">Se déconnecter ({{ app.user.userIdentifier }})</a>
                         <a class="nav-link" href="{{ path('sorties_afficher')}}">Sorties</a>
-{#                        <a class="nav-link" href="{{ path('modifier_user') }}">Modifier mon profil</a>#}
+                        <a class="nav-link" href="{{ path('app_creer_sortie')}}">Créer une sortie</a>
+                        <a class="nav-link" href="{{ path('modifier_user', {'id': app.user.id}) }}">Modifier mon profil</a>
+                        {% if is_granted ("ROLE_ADMIN") %}
+                            <a class="nav-link" href="{{ path('app_register') }}">Admin</a>
+                        {% endif %}
                     {% else %}
-                        <a class="nav-link" href="{{ path('app_register') }}">Admin</a>
                         <a class="nav-link" href="{{ path('app_login') }}">Login<span class="sr-only"></span></a>
                     {% endif %}
 

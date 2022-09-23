@@ -5,12 +5,13 @@
     {{ app_name }}
 {% endblock %}
 
+
 {% block body %}
     <div class="jumbotron mt-2">
     <br>
     <br>
-    <br>
     <h1>Filtrer les sorties</h1>
+
    {{ form(form) }}
 
     <br>
@@ -39,9 +40,14 @@
                 <td>{{sortie.dateLimiteInscription | date}}</td>
                 <td>{{sortie.nbInscriptionsMax}}</td>
                 <td>{{sortie.etat}}</td>
-                <td>{# sortie.participant #}</td>
+                <td>
+
+                </td>
                 <td>{{sortie.organisateur.nom}}</td>
                 <td>
+{#                    {% if app.user.id != sortie.inscrits %}#}
+                    <a href="{{ path('app_inscription_sortie', {'id': sortie.id}) }}">S'inscrire</a> -
+                    <a href="{{ path('app_desistement_sortie', {'id': sortie.id}) }}">Se désister</a>
 
 
 
